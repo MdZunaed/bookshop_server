@@ -2,7 +2,9 @@ package main
 
 import (
 	"fmt"
+
 	"github.com/MdZunaed/bookshop/config"
+	"github.com/MdZunaed/bookshop/routes"
 	"github.com/gin-gonic/gin"
 )
 
@@ -16,7 +18,9 @@ func main() {
 			"message": "Server is running fine",
 		})
 	})
-	fmt.Println("Test")
+	routes.RegisterRoute(app)
+
+	fmt.Println("Server started")
 
 	port := config.GetEnvProperty("port")
 	app.Run(fmt.Sprintf(":%s", port))
