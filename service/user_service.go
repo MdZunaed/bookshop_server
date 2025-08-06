@@ -1,23 +1,38 @@
 package service
 
 import (
+	"github.com/MdZunaed/bookshop/model"
 	repo "github.com/MdZunaed/bookshop/repository"
+	"github.com/MdZunaed/bookshop/utils"
 	"go.mongodb.org/mongo-driver/mongo"
 )
 
 type UserServiceInterface interface {
 	CreateUser(data any, sessionContext mongo.SessionContext) (any, error)
+	FindOneUserByEmail(email string, sessionContext mongo.SessionContext) (any, error)
 }
 
 type UserService struct {
-	repository repo.MongoRepoInterface
+	repository repo.Repository
 }
 
 func (us *UserService) CreateUser(data any, sessionContext mongo.SessionContext) (any, error) {
-	return us.repository.Create(data, sessionContext)
+	return us.repository.UserRepository.Create(data, sessionContext)
 }
 
-func GetUsereService(repository repo.MongoRepoInterface) UserServiceInterface {
+func (us *UserService) FindOneUserByEmail(email string, sessionContext mongo.SessionContext) (any, error) {
+	res, err := us.repository.UserRepository.FindOneByKey("email", email, sessionContext)
+	if err != nil {
+		return nil, err
+	}
+	var user model.User
+	if err := utils.MapToStruct(res.(map[string]any), &user); err != nil {
+		return nil, err
+	}
+	return user, nil
+}
+
+func GetUsereService(repository repo.Repository) UserServiceInterface {
 	return &UserService{
 		repository: repository,
 	}

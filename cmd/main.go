@@ -20,8 +20,8 @@ func main() {
 	})
 	routes.RegisterRoute(app)
 
-	fmt.Println("Server started")
 
+	fmt.Println("Server started")
 	port := config.GetEnvProperty("port")
 	app.Run(fmt.Sprintf(":%s", port))
 }

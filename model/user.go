@@ -6,11 +6,11 @@ type User struct {
 	Id       primitive.ObjectID `bson:"_id,omitempty" json:"id,omitempty"`
 	Name     string             `bson:"name" json:"name"`
 	Email    string             `bson:"email" json:"email"`
-	Password primitive.ObjectID `bson:"password" json:"password"`
+	Password string             `bson:"password" json:"password"`
 }
 
 type NewUser struct {
-	Name     string             `bson:"name" json:"name"`
-	Email    string             `bson:"email" json:"email"`
-	Password primitive.ObjectID `bson:"password" json:"password"`
+	Name     string `bson:"name" json:"name"`
+	Email    string `bson:"email" json:"email"`
+	Password string `bson:"password" json:"password"`
 }

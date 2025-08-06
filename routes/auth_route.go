@@ -8,14 +8,15 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func RegisterUserRoutes(router *gin.RouterGroup) {
+func RegisterAuthRoutes(router *gin.RouterGroup) {
 	repository := repository.GetRepository()
 	userService := service.GetUsereService(*repository)
+	authService := service.GetAuthService(*repository, userService)
 	responseService := utils.GetResponseService()
-	userController := controller.GetUserController(userService, *responseService)
+	authController := controller.GetAuthController(authService, *responseService)
 
 	router.POST(
 		"/create",
-		userController.CreateUser,
+		authController.Login,
 	)
 }

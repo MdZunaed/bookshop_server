@@ -1,6 +1,8 @@
 package controller
 
 import (
+	"fmt"
+
 	"github.com/MdZunaed/bookshop/model"
 	"github.com/MdZunaed/bookshop/service"
 	"github.com/MdZunaed/bookshop/utils"
@@ -15,10 +17,11 @@ type UserController struct {
 func (uc *UserController) CreateUser(ctx *gin.Context) {
 	var user model.NewUser
 	if err := ctx.ShouldBindBodyWithJSON(&user); err != nil {
-		ctx.JSON(400, gin.H{
-			"message": "Bad Request",
-			"error":   err.Error(),
-		})
+		// ctx.JSON(400, gin.H{
+		// 	"message": "Bad Request",
+		// 	"error":   err.Error(),
+		// })
+		ctx.Error(fmt.Errorf("400::%s::%s::%v", "Bad Request", err.Error(), err))
 		return
 	}
 	data, err := uc.userService.CreateUser(user, nil)

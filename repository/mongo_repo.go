@@ -2,6 +2,7 @@ package repository
 
 import (
 	"context"
+	"fmt"
 	"time"
 
 	"github.com/MdZunaed/bookshop/config"
@@ -16,7 +17,8 @@ type MongoRepoInterface interface {
 	Update(id string, data interface{}, ctx mongo.SessionContext) (interface{}, error)
 	Delete(id string, ctx mongo.SessionContext) (interface{}, error)
 	FindAll(filter interface{}, ctx mongo.SessionContext) ([]map[string]interface{}, error)
-	Aggregate(pipeline mongo.Pipeline, ctx mongo.SessionContext) ([]map[string]any, error) 
+	Aggregate(pipeline mongo.Pipeline, ctx mongo.SessionContext) ([]map[string]any, error)
+	FindOneByKey(key string, value any, ctx mongo.SessionContext) (any, error)
 }
 
 type MongoRepository struct {
@@ -48,6 +50,23 @@ func (mr *MongoRepository) FindOne(id string, ctx mongo.SessionContext) (interfa
 	}
 	result := mr.collection.FindOne(sessionContext, bson.M{"_id": objId})
 	var document map[string]interface{}
+	if err := result.Decode(&document); err != nil {
+		return nil, err
+	}
+	return document, nil
+}
+
+func (mr *MongoRepository) FindOneByKey(key string, value any, ctx mongo.SessionContext) (any, error) {
+	sessionContext := setupSessionContext(ctx)
+	objId, err := primitive.ObjectIDFromHex(key)
+	var result *mongo.SingleResult
+	if err != nil {
+		fmt.Printf("%s is not an object id", key)
+		result = mr.collection.FindOne(sessionContext, bson.M{key: value})
+	} else {
+		result = mr.collection.FindOne(sessionContext, bson.M{key: objId})
+	}
+	var document map[string]any
 	if err := result.Decode(&document); err != nil {
 		return nil, err
 	}
