@@ -1,9 +1,8 @@
 package controller
 
 import (
-	"fmt"
-
 	"github.com/MdZunaed/bookshop/dto"
+	"github.com/MdZunaed/bookshop/model"
 	"github.com/MdZunaed/bookshop/service"
 	"github.com/MdZunaed/bookshop/utils"
 	"github.com/gin-gonic/gin"
@@ -17,11 +16,21 @@ type AuthController struct {
 func (ac *AuthController) Login(ctx *gin.Context) {
 	var loginDto dto.LoginDto
 	if err := ctx.ShouldBindJSON(&loginDto); err != nil {
-		ctx.Error(fmt.Errorf("400::%s::%s::%v", "Bad Request", err.Error(), err))
+		ctx.Error(&model.AppError{
+			Source:     "AuthController_Login",
+			StatusCode: 400,
+			Message:    "Bad Request",
+			Err:        err,
+		})
+		//ctx.Error(fmt.Errorf("%s::400::%s::%v","AuthController_Login", "Bad Request",  err))
 		return
 	}
 	data, err := ac.authService.Login(loginDto, nil)
 	if err != nil {
+		if appErr, ok := err.(model.AppError); ok {
+			ctx.Error(appErr)
+			return
+		}
 		ctx.Error(err)
 		return
 	}
