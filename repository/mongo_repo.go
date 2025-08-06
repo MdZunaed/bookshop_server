@@ -3,7 +3,8 @@ package repository
 import (
 	"context"
 	"fmt"
-	"time"
+
+	//"time"
 
 	"github.com/MdZunaed/bookshop/config"
 	"go.mongodb.org/mongo-driver/bson"
@@ -26,9 +27,10 @@ type MongoRepository struct {
 }
 
 func setupSessionContext(sessionContext mongo.SessionContext) mongo.SessionContext {
-	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
+	// ctx, cancel := context.WithTimeout(context.Background(), 20*time.Second)
+	// defer cancel()
 
-	defer cancel()
+	ctx := context.Background()
 
 	if sessionContext == nil {
 		return mongo.NewSessionContext(ctx, mongo.SessionFromContext(ctx))

@@ -8,18 +8,18 @@ type ResponseService struct {
 	data any
 }
 
-func (rs *ResponseService) Success(ctx *gin.Context,statusCode int,message string,  data any) {
+func (rs *ResponseService) Success(ctx *gin.Context, statusCode int, message string, data any) {
 	var response = map[string]any{
+		"data":       data,
+		"message":    message,
 		"statusCode": statusCode,
-		"message": message,
-		"data": data,
 	}
-	if message == ""{
+	if message == "" {
 		response["message"] = "success"
 	}
 	ctx.JSON(statusCode, response)
 }
 
-func GetResponseService() *ResponseService{
+func GetResponseService() *ResponseService {
 	return &ResponseService{}
 }

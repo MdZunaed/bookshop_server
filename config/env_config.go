@@ -13,24 +13,24 @@ var env ConfigDto
 
 // Go default function to run when program runs
 func init() {
-	if env.port == ""{
+	if env.port == "" {
 		LoadEnvironment()
 	}
 	ConfigEnv()
 }
 
 type ConfigDto struct {
-	port         string
-	secret_key   string
-	database_url string
+	port          string
+	secret_key    string
+	database_url  string
 	database_name string
 }
 
 func ConfigEnv() {
 	env = ConfigDto{
-		port:         os.Getenv("PORT"),
-		secret_key:   os.Getenv("SECRET_KEY"),
-		database_url: os.Getenv("MONGO_DB_URL"),
+		port:          os.Getenv("PORT"),
+		secret_key:    os.Getenv("SECRET_KEY"),
+		database_url:  os.Getenv("MONGO_DB_URL"),
 		database_name: os.Getenv("DATABASE_NAME"),
 	}
 }

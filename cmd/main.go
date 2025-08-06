@@ -11,16 +11,24 @@ import (
 func main() {
 	app := gin.Default()
 
-	app.Use(gin.Recovery())
-	app.GET("/ping", func(ctx *gin.Context) {
-		ctx.JSON(200, gin.H{
-			"success": true,
-			"message": "Server is running fine",
-		})
-	})
+	// app.Use(gin.Recovery())
+	// app.GET("/ping", func(ctx *gin.Context) {
+	// 	ctx.JSON(200, gin.H{
+	// 		"success": true,
+	// 		"message": "Server is running fine",
+	// 	})
+	// })
+	// app.GET("/pong", func(ctx *gin.Context) {
+	// 	ctx.JSON(200, gin.H{
+	// 		"success": true,
+	// 		"message": "pong",
+	// 	})
+	// })
 	routes.RegisterRoute(app)
 
-
+	for _, ri := range app.Routes() {
+		fmt.Println(ri.Method, ri.Path)
+	}
 	fmt.Println("Server started")
 	port := config.GetEnvProperty("port")
 	app.Run(fmt.Sprintf(":%s", port))

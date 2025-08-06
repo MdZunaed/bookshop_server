@@ -13,7 +13,7 @@ import (
 var dbClient *mongo.Client
 var DEFAULT_DB_NAME = "test_db"
 
-func init(){
+func init() {
 	LoadEnvironment()
 	InitDatabase()
 }
@@ -21,7 +21,7 @@ func init(){
 func InitDatabase() (*mongo.Client, error) {
 	db_url := GetEnvProperty("database_url")
 
-	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
+	ctx, cancel := context.WithTimeout(context.Background(), 20*time.Second)
 
 	defer cancel()
 
@@ -36,22 +36,18 @@ func InitDatabase() (*mongo.Client, error) {
 }
 
 func GetDatabaseCollection(dbName *string, collectionName string) *mongo.Collection {
-	if *dbName == "" || dbName != nil {
+	if *dbName == "" || dbName == nil {
+		log.Fatal("db name is not provided, proceeding with test_db")
 		dbName = &DEFAULT_DB_NAME
 	}
 	if dbClient == nil {
-		dbClient, _ = InitDatabase()
+		var err error
+		dbClient, err = InitDatabase()
+		if err != nil {
+			log.Fatal("client initialization error ", err)
+		}
 	}
 	collection := dbClient.Database(*dbName).Collection(collectionName)
 
 	return collection
 }
-
-// func initializeDB()(*mongo.Client, error){
-// 	db, err:= InitDatabase()
-
-// 	if err != nil {
-// 		log.Fatalf("Failed to connect db, %v", err)
-// 	}
-// 	return db, nil
-// }

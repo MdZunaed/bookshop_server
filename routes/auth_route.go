@@ -16,7 +16,7 @@ func RegisterAuthRoutes(router *gin.RouterGroup) {
 	authController := controller.GetAuthController(authService, *responseService)
 
 	router.POST(
-		"/create",
+		"/login",
 		authController.Login,
 	)
 }
