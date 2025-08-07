@@ -21,7 +21,7 @@ func GetBookController(bookService service.BookServiceInterface, responseService
 }
 
 func (bc *BookController) CreateBook(ctx *gin.Context) {
-	var bookDto model.Book
+	var bookDto dto.CreateBookDto
 	if err := ctx.ShouldBindJSON(&bookDto); err != nil {
 		ctx.Error(&model.AppError{
 			Source:     "BookController_CreateBook",
@@ -68,7 +68,8 @@ func (bc *BookController) GetBookById(ctx *gin.Context) {
 }
 
 func (bc *BookController) UpdateBook(ctx *gin.Context) {
-	var bookDto dto.BookDto
+	var bookDto map[string]any
+	var bookId = ctx.Param("bookId")
 	if err := ctx.ShouldBindJSON(&bookDto); err != nil {
 		ctx.Error(&model.AppError{
 			Source:     "BookController_UpdateBook",
@@ -78,7 +79,15 @@ func (bc *BookController) UpdateBook(ctx *gin.Context) {
 		})
 		return
 	}
-	data, err := bc.bookService.UpdateBook(bookDto, nil)
+	if bookId == "" {
+		ctx.Error(&model.AppError{
+			Source:     "BookController_UpdateBookById",
+			StatusCode: 404,
+			Message:    "Id not found",
+		})
+		return
+	}
+	data, err := bc.bookService.UpdateBook(bookId, bookDto, nil)
 	if err != nil {
 		ctx.Error(err)
 		return

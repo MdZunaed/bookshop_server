@@ -9,7 +9,7 @@ type BookServiceInterface interface {
 	CreateBook(data any, sessionContext mongo.SessionContext) (any, error)
 	GetAllBooks(sessionContext mongo.SessionContext) (any, error)
 	GetBookById(id string, sessionContext mongo.SessionContext) (any, error)
-	UpdateBook(data any, sessionContext mongo.SessionContext) (any, error)
+	UpdateBook(id string, data map[string]any, sessionContext mongo.SessionContext) (any, error)
 	DeleteBookById(id string, sessionContext mongo.SessionContext) (any, error)
 }
 
@@ -32,11 +32,8 @@ func (bs *BookService) GetAllBooks(sessionContext mongo.SessionContext) (any, er
 func (bs *BookService) GetBookById(id string, sessionContext mongo.SessionContext) (any, error) {
 	return bs.repository.BookRepository.FindOne(id, sessionContext)
 }
-func (bs *BookService) UpdateBook(data any, sessionContext mongo.SessionContext) (any, error) {
-	bookData := data.(map[string]any)
-	id := bookData["_id"].(string)
-	delete(bookData, "_id")
-	return bs.repository.BookRepository.Update(id, bookData, sessionContext)
+func (bs *BookService) UpdateBook(id string, data map[string]any, sessionContext mongo.SessionContext) (any, error) {
+	return bs.repository.BookRepository.Update(id, data, sessionContext)
 }
 func (bs *BookService) DeleteBookById(id string, sessionContext mongo.SessionContext) (any, error) {
 	return bs.repository.BookRepository.Delete(id, sessionContext)
