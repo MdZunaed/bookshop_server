@@ -5,19 +5,24 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func RegisterRoute(r *gin.Engine){
-	router:= r.Group("/")
+func RegisterRoute(r *gin.Engine) {
+	router := r.Group("/")
 
 	// Error handler Middleware
 	router.Use(middlewares.ErrorHandler())
 
-	userRoutes:= router.Group("/users")
+	userRoutes := router.Group("/users")
 	{
 		RegisterUserRoutes(userRoutes)
 	}
 
-	authRoutes:= router.Group("/auth")
+	authRoutes := router.Group("/auth")
 	{
 		RegisterAuthRoutes(authRoutes)
+	}
+
+	bookRoutes := router.Group("/book")
+	{
+		RegisterBookRoutes(bookRoutes)
 	}
 }

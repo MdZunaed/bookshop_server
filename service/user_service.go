@@ -2,7 +2,7 @@ package service
 
 import (
 	"github.com/MdZunaed/bookshop/model"
-	repo "github.com/MdZunaed/bookshop/repository"
+	repo "github.com/MdZunaed/bookshop/repo"
 	"github.com/MdZunaed/bookshop/utils"
 	"go.mongodb.org/mongo-driver/mongo"
 )

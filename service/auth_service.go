@@ -3,7 +3,7 @@ package service
 import (
 	"github.com/MdZunaed/bookshop/dto"
 	"github.com/MdZunaed/bookshop/model"
-	repo "github.com/MdZunaed/bookshop/repository"
+	repo "github.com/MdZunaed/bookshop/repo"
 	"go.mongodb.org/mongo-driver/mongo"
 )
 
