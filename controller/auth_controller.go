@@ -19,7 +19,7 @@ func (ac *AuthController) Login(ctx *gin.Context) {
 		ctx.Error(&model.AppError{
 			Source:     "AuthController_Login",
 			StatusCode: 400,
-			Message:    "Bad Request",
+			Message:    "No body content found",
 			Err:        err,
 		})
 		//ctx.Error(fmt.Errorf("%s::400::%s::%v","AuthController_Login", "Bad Request",  err))
@@ -27,10 +27,10 @@ func (ac *AuthController) Login(ctx *gin.Context) {
 	}
 	data, err := ac.authService.Login(loginDto, nil)
 	if err != nil {
-		if appErr, ok := err.(model.AppError); ok {
-			ctx.Error(appErr)
-			return
-		}
+		// if appErr, ok := err.(model.AppError); ok {
+		// 	ctx.Error(appErr)
+		// 	return
+		// }
 		ctx.Error(err)
 		return
 	}
