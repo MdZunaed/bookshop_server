@@ -2,20 +2,20 @@ package config
 
 import (
 	"fmt"
-	"log"
+	//"log"
 	"os"
 	"reflect"
 
-	"github.com/joho/godotenv"
+	//"github.com/joho/godotenv"
 )
 
 var env ConfigDto
 
 // Go default function to run when program runs
 func init() {
-	if env.port == "" {
-		LoadEnvironment()
-	}
+	// if env.port == "" {
+	// 	LoadEnvironment()
+	// }
 	ConfigEnv()
 }
 
@@ -37,13 +37,17 @@ func ConfigEnv() {
 	}
 }
 
-func LoadEnvironment() {
-	err := godotenv.Load()
-
-	if err != nil {
-		log.Fatal("Error loading env variable")
-	}
-}
+// func LoadEnvironment() {
+//     if _, err := os.Stat(".env"); err == nil {
+//         // .env exists → load it
+//         if err := godotenv.Load(); err != nil {
+//             log.Fatal("Error loading env file:", err)
+//         }
+//     } else {
+//         // no .env file → just skip
+//         fmt.Println("No .env file found, skipping...")
+//     }
+// }
 
 func accessEnv(key string) (string, error) {
 	v := reflect.ValueOf(env)

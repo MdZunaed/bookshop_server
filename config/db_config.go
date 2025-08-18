@@ -14,7 +14,7 @@ var dbClient *mongo.Client
 var DEFAULT_DB_NAME = "test_db"
 
 func init() {
-	LoadEnvironment()
+	//LoadEnvironment()
 	InitDatabase()
 }
 
