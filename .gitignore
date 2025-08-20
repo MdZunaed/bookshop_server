@@ -26,6 +26,10 @@ go.work.sum
 
 # env file
 #.env
+.env.prod
+
+#pem key
+bookshop_key.pem
 
 # Editor/IDE
 # .idea/
